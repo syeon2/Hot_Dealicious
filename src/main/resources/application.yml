@@ -5,8 +5,16 @@ spring:
     username: root
     password: tndusdl11
 
+  session:
+    store-type: redis
+
+  redis:
+    host: localhost
+    port: 6379
+
 # MyBatis
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
   mapper-locations: classpath:mapper/**/*.xml
