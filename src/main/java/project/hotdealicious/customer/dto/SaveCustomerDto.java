@@ -18,7 +18,7 @@ public class SaveCustomerDto {
 	private final String email;
 
 	@NotBlank(message = "비밀번호를 작성해주세요.")
-	private final String password;
+	private String password;
 
 	@NotBlank(message = "이름을 작성해주세요.")
 	private final String name;
@@ -29,4 +29,14 @@ public class SaveCustomerDto {
 
 	@NotBlank(message = "주소를 작성해주세요.")
 	private final String address;
+
+	private String salt;
+
+	public void setEncryptedPassword(String password) {
+		this.password = password;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 }

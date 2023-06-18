@@ -1,7 +1,5 @@
 package project.hotdealicious.customer.web;
 
-import java.util.NoSuchElementException;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -29,10 +27,6 @@ public class CustomerLoginController {
 	public Customer login(HttpSession session, @Valid @RequestBody CustomerLoginDto customerLoginDto) {
 		Customer loginCustomer = customerLoginService.login(customerLoginDto.getEmail(),
 			customerLoginDto.getPassword());
-
-		if (loginCustomer == null) {
-			throw new NoSuchElementException("아이디 또는 비밀번호가 맞지 않습니다.");
-		}
 
 		SessionUtil.setLoginCustomerId(session, loginCustomer.getEmail(), loginCustomer.getId());
 

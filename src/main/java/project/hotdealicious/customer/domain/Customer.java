@@ -16,4 +16,5 @@ public class Customer {
 	private final String phone;
 	private final String address;
 	private final Timestamp createdAt;
+	private final String salt;
 }

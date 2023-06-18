@@ -4,8 +4,8 @@
 <mapper namespace="project.hotdealicious.customer.dao.mybatis.CustomerMapper">
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into customer (email, password, name, phone, address)
-        values (#{email}, #{password}, #{name}, #{phone}, #{address})
+        insert into customer (email, password, name, phone, address, salt)
+        values (#{email}, #{password}, #{name}, #{phone}, #{address}, #{salt})
     </insert>
 
     <update id="update">
