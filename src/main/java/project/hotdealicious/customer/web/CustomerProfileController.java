@@ -14,7 +14,7 @@ import project.hotdealicious.customer.dto.SaveCustomerDto;
 import project.hotdealicious.customer.service.CustomerProfileService;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
 public class CustomerProfileController {
 
