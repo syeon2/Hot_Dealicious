@@ -12,7 +12,8 @@
         update customer
         set password=#{updateParam.password},
             phone=#{updateParam.phone},
-            address=#{updateParam.address}
+            address=#{updateParam.address},
+            updated_at=#{updateParam.updatedAt}
         where id = #{id}
     </update>
 

@@ -1,5 +1,6 @@
 package project.hotdealicious.customer.dao.mybatis;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -34,11 +35,17 @@ public class MyBatisCustomerDAO implements ICustomerDAO {
 
 	@Override
 	public void update(Long id, UpdateCustomerDto updateCustomerDto) {
+		updateCustomerDto.setUpdatedAt(getCurrentTime());
+
 		customerMapper.update(id, updateCustomerDto);
 	}
 
 	@Override
 	public void delete(Long id) {
 		customerMapper.delete(id);
+	}
+
+	private Timestamp getCurrentTime() {
+		return new Timestamp(System.currentTimeMillis());
 	}
 }
