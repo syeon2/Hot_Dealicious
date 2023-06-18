@@ -4,7 +4,7 @@ import javax.servlet.http.HttpSession;
 
 public abstract class SessionUtil {
 
-	private static final String LOGIN_CUSTOMER_KEY = "LOGIN_CUSTOMER_KEY";
+	public static final String LOGIN_CUSTOMER_KEY = "LOGIN_CUSTOMER_KEY";
 
 	public static Long getLoginCustomerId(HttpSession session, String email, Long id) {
 		return (Long)session.getAttribute(getSessionKey(email, id));
