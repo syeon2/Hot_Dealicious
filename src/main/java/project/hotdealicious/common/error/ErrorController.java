@@ -39,4 +39,11 @@ public class ErrorController {
 		HttpRequestMethodNotSupportedException error) {
 		return ErrorApiResult.onError(HttpStatus.BAD_REQUEST.value(), error.getLocalizedMessage());
 	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(RuntimeException.class)
+	public BaseWrapper<Object> handlerSqlIntegrityConstraintViolationException(
+		RuntimeException error) {
+		return BaseWrapper.onFailure(HttpStatus.BAD_REQUEST.value(), error.getLocalizedMessage());
+	}
 }
