@@ -1,33 +1,34 @@
-package project.hotdealicious.owner.dto;
-
-import java.sql.Timestamp;
+package project.hotdealicious.rider.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-@AllArgsConstructor
-public class UpdateOwnerDto {
+public class SaveRiderDto {
+
+	private Long id;
 
 	@NotBlank(message = "비밀번호를 작성해주세요.")
 	private String password;
 
-	@NotBlank(message = "전화번호를 입력해주세요.")
+	@NotBlank(message = "이름을 작성해주세요.")
+	private final String name;
+
+	@NotBlank(message = "전화번호를 작성해주세요.")
 	@Pattern(regexp = "[0-9]{10,11}", message = "10 ~ 11자리의 숫자만 입력 가능합니다.")
 	private final String phone;
 
-	private Timestamp updatedAt;
+	private String salt;
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 }

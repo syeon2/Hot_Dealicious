@@ -1,4 +1,4 @@
-package project.hotdealicious.owner.dto;
+package project.hotdealicious.rider.dto;
 
 import java.sql.Timestamp;
 
@@ -12,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class UpdateOwnerDto {
+public class UpdateRiderDto {
 
 	@NotBlank(message = "비밀번호를 작성해주세요.")
 	private String password;
 
-	@NotBlank(message = "전화번호를 입력해주세요.")
+	@NotBlank(message = "전화번호를 작성해주세요.")
 	@Pattern(regexp = "[0-9]{10,11}", message = "10 ~ 11자리의 숫자만 입력 가능합니다.")
 	private final String phone;
 

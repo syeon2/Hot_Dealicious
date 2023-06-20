@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.hotdealicious.rider.dao.mybatis.RiderMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into rider (password, name, phone, salt)
+        values (#{password}, #{name}, #{phone}, #{salt})
+    </insert>
+
+    <update id="update">
+        update rider
+        set password=#{updateParam.password},
+            phone=#{updateParam.phone},
+            updated_at=#{updateParam.updatedAt}
+        where id = #{id}
+    </update>
+
+    <update id="updateWorkStatus">
+        update rider
+        set work_status=#{workStatus}
+        where id = #{id}
+    </update>
+
+    <select id="findById">
+        select *
+        from rider
+        where id = #{id}
+    </select>
+
+    <delete id="delete">
+        delete
+        from rider
+        where id = #{id}
+    </delete>
+
+</mapper>
