@@ -41,8 +41,7 @@ public class ErrorController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(RuntimeException.class)
-	public BaseWrapper<Object> handlerSqlIntegrityConstraintViolationException(
-		RuntimeException error) {
+	public BaseWrapper<Object> handlerRuntimeException(RuntimeException error) {
 		return BaseWrapper.onFailure(HttpStatus.BAD_REQUEST.value(), error.getLocalizedMessage());
 	}
 }

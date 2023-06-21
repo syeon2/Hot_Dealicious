@@ -20,6 +20,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 	}
 
 	private static boolean getLoginSession(HttpSession session) {
-		return session.getAttribute(SessionUtil.LOGIN_CUSTOMER_KEY) != null;
+		return (session.getAttribute(SessionUtil.LOGIN_CUSTOMER_KEY) != null
+			|| session.getAttribute(SessionUtil.LOGIN_OWNER_KEY) != null
+			|| session.getAttribute(SessionUtil.LOGIN_RIDER_KEY) != null);
 	}
 }

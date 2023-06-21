@@ -1,5 +1,7 @@
 package project.hotdealicious.owner.web;
 
+import java.util.NoSuchElementException;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -24,6 +26,10 @@ public class OwnerLoginController {
 	@GetMapping("/login")
 	public Owner login(HttpSession session, @Valid @RequestBody OwnerLoginDto ownerLoginDto) {
 		Owner loginOwner = ownerLoginService.login(ownerLoginDto.getId(), ownerLoginDto.getPassword());
+
+		if (loginOwner == null) {
+			throw new NoSuchElementException("아이디 또는 비밀번호가 맞지 않습니다.");
+		}
 
 		SessionUtil.setLoginOwnerId(session, ownerLoginDto.getId());
 

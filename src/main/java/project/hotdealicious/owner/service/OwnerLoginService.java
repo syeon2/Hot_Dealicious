@@ -1,7 +1,5 @@
 package project.hotdealicious.owner.service;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -17,10 +15,6 @@ public class OwnerLoginService {
 
 	public Owner login(Long id, String password) {
 		Owner findOwner = ownerDAO.findById(id);
-
-		if (findOwner == null) {
-			throw new NoSuchElementException("아이디 또는 비밀번호가 맞지 않습니다.");
-		}
 
 		String salt = findOwner.getSalt();
 		String encryptPassword = Sha256Util.getEncrypt(password, salt);

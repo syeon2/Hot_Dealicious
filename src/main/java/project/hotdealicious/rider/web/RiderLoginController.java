@@ -1,5 +1,7 @@
 package project.hotdealicious.rider.web;
 
+import java.util.NoSuchElementException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,10 @@ public class RiderLoginController {
 	@GetMapping("/login")
 	public Rider login(HttpSession session, Long id, String password) {
 		Rider loginRider = riderLoginService.login(id, password);
+
+		if (loginRider == null) {
+			throw new NoSuchElementException("아이디 또는 비밀번호가 밎지 않습니다.");
+		}
 
 		SessionUtil.setLoginRiderId(session, id);
 
