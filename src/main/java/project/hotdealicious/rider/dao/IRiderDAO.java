@@ -15,9 +15,9 @@ public interface IRiderDAO {
 
 	Optional<Rider> findById(Long id);
 
-	void update(@Param("id") Long id, @Param("updateParam") UpdateRiderDto updateRiderDto);
+	Long update(@Param("id") Long id, @Param("updateParam") UpdateRiderDto updateRiderDto);
 
-	void updateWorkStatus(@Param("id") Long id, @Param("workStatus") WorkStatus workStatus);
+	Long updateWorkStatus(@Param("id") Long id, @Param("workStatus") WorkStatus workStatus);
 
-	void delete(@Param("id") Long id);
+	Long delete(@Param("id") Long id);
 }

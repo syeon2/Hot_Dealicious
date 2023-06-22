@@ -30,7 +30,7 @@ public class RiderProfileService {
 		return riderDAO.save(saveRiderDto);
 	}
 
-	public void update(Long id, UpdateRiderDto updateRiderDto) {
+	public Long update(Long id, UpdateRiderDto updateRiderDto) {
 		Optional<Rider> findRiderOptional = riderDAO.findById(id);
 
 		if (findRiderOptional.isEmpty()) {
@@ -43,14 +43,14 @@ public class RiderProfileService {
 		updateRiderDto.setPassword(encryptPassword);
 		updateRiderDto.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-		riderDAO.update(id, updateRiderDto);
+		return riderDAO.update(id, updateRiderDto);
 	}
 
-	public void updateWorkStatus(Long id, WorkStatus workStatus) {
-		riderDAO.updateWorkStatus(id, WorkStatus.changedStatus(workStatus));
+	public Long updateWorkStatus(Long id, WorkStatus workStatus) {
+		return riderDAO.updateWorkStatus(id, WorkStatus.changedStatus(workStatus));
 	}
 
-	public void withdraw(Long id) {
-		riderDAO.delete(id);
+	public Long withdraw(Long id) {
+		return riderDAO.delete(id);
 	}
 }

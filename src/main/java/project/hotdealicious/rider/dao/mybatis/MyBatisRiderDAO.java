@@ -26,15 +26,21 @@ public class MyBatisRiderDAO implements IRiderDAO {
 		return riderMapper.findById(id);
 	}
 
-	public void update(Long id, UpdateRiderDto updateRiderDto) {
+	public Long update(Long id, UpdateRiderDto updateRiderDto) {
 		riderMapper.update(id, updateRiderDto);
+
+		return id;
 	}
 
-	public void updateWorkStatus(Long id, WorkStatus workStatus) {
+	public Long updateWorkStatus(Long id, WorkStatus workStatus) {
 		riderMapper.updateWorkStatus(id, workStatus);
+
+		return id;
 	}
 
-	public void delete(Long id) {
+	public Long delete(Long id) {
 		riderMapper.delete(id);
+
+		return id;
 	}
 }

@@ -27,12 +27,12 @@ public class CustomerProfileController {
 	}
 
 	@PostMapping("/{id}")
-	public void update(@PathVariable Long id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
-		customerProfileService.update(id, updateCustomerDto);
+	public Long updateCustomerInfo(@PathVariable Long id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
+		return customerProfileService.update(id, updateCustomerDto);
 	}
 
 	@DeleteMapping("/{id}")
-	public void withdraw(@PathVariable Long id) {
-		customerProfileService.withdraw(id);
+	public Long withdrawCustomer(@PathVariable Long id) {
+		return customerProfileService.withdraw(id);
 	}
 }

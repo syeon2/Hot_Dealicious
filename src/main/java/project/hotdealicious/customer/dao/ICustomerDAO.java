@@ -10,11 +10,11 @@ public interface ICustomerDAO {
 
 	Long save(SaveCustomerDto saveCustomerDto);
 
-	Customer findById(Long id);
+	Optional<Customer> findById(Long id);
 
 	Optional<Customer> findByLoginId(String email);
 
-	void update(Long id, UpdateCustomerDto updateCustomerDto);
+	Long update(Long id, UpdateCustomerDto updateCustomerDto);
 
-	void delete(Long id);
+	Long delete(Long id);
 }

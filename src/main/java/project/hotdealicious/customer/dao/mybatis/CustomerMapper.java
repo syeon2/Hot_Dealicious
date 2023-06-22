@@ -12,9 +12,9 @@ import project.hotdealicious.customer.dto.UpdateCustomerDto;
 @Mapper
 public interface CustomerMapper {
 
-	void save(SaveCustomerDto saveCustomerDto);
+	Long save(SaveCustomerDto saveCustomerDto);
 
-	Customer findById(Long id);
+	Optional<Customer> findById(Long id);
 
 	Optional<Customer> findByLoginId(String email);
 

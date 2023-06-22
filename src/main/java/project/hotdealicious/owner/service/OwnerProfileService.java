@@ -29,7 +29,7 @@ public class OwnerProfileService {
 		return ownerDAO.save(saveOwnerDto);
 	}
 
-	public void update(Long id, UpdateOwnerDto updateOwnerDto) {
+	public Long update(Long id, UpdateOwnerDto updateOwnerDto) {
 		Optional<Owner> findOwnerOptional = ownerDAO.findById(id);
 
 		if (findOwnerOptional.isEmpty()) {
@@ -41,11 +41,11 @@ public class OwnerProfileService {
 		updateOwnerDto.setPassword(encryptPassword);
 		updateOwnerDto.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
-		ownerDAO.update(id, updateOwnerDto);
+		return ownerDAO.update(id, updateOwnerDto);
 	}
 
-	public void withdraw(Long id) {
-		ownerDAO.delete(id);
+	public Long withdraw(Long id) {
+		return ownerDAO.delete(id);
 	}
 
 	private String getEncryptPassword(String password, Owner findOwner) {

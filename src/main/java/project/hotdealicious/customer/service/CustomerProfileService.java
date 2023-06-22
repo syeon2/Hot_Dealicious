@@ -1,5 +1,8 @@
 package project.hotdealicious.customer.service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -17,26 +20,32 @@ public class CustomerProfileService {
 
 	public Long join(SaveCustomerDto saveCustomerDto) {
 		String salt = Sha256Util.generateSalt();
-
-		saveCustomerDto.setSalt(salt);
 		String password = saveCustomerDto.getPassword();
+
 		password = Sha256Util.getEncrypt(password, salt);
 
+		saveCustomerDto.setSalt(salt);
 		saveCustomerDto.setEncryptedPassword(password);
 
 		return customerDAO.save(saveCustomerDto);
 	}
 
-	public void update(Long id, UpdateCustomerDto updateCustomerDto) {
-		Customer findCustomer = customerDAO.findById(id);
+	public Long update(Long id, UpdateCustomerDto updateCustomerDto) {
+		Optional<Customer> findCustomerOptional = customerDAO.findById(id);
+
+		if (findCustomerOptional.isEmpty()) {
+			throw new NoSuchElementException("아이디를 확인해주세요.");
+		}
+
+		Customer findCustomer = findCustomerOptional.get();
 
 		String encryptPassword = Sha256Util.getEncrypt(updateCustomerDto.getPassword(), findCustomer.getSalt());
 		updateCustomerDto.setPassword(encryptPassword);
 
-		customerDAO.update(findCustomer.getId(), updateCustomerDto);
+		return customerDAO.update(findCustomer.getId(), updateCustomerDto);
 	}
 
-	public void withdraw(Long id) {
-		customerDAO.delete(id);
+	public Long withdraw(Long id) {
+		return customerDAO.delete(id);
 	}
 }

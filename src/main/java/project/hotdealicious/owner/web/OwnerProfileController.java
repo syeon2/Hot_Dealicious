@@ -27,12 +27,12 @@ public class OwnerProfileController {
 	}
 
 	@PostMapping("/{id}")
-	public void update(@PathVariable Long id, @Valid @RequestBody UpdateOwnerDto updateOwnerDto) {
-		ownerProfileService.update(id, updateOwnerDto);
+	public Long updateOwnerInfo(@PathVariable Long id, @Valid @RequestBody UpdateOwnerDto updateOwnerDto) {
+		return ownerProfileService.update(id, updateOwnerDto);
 	}
 
 	@DeleteMapping("/{id}")
-	public void withdraw(@PathVariable Long id) {
-		ownerProfileService.withdraw(id);
+	public Long withdrawOwner(@PathVariable Long id) {
+		return ownerProfileService.withdraw(id);
 	}
 }

@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import project.hotdealicious.common.util.SessionUtil;
 import project.hotdealicious.customer.domain.Customer;
 import project.hotdealicious.customer.dto.CustomerLoginDto;
-import project.hotdealicious.customer.dto.ResponseLogoutDTO;
 import project.hotdealicious.customer.service.CustomerLoginService;
 
 @RestController
@@ -41,9 +40,7 @@ public class CustomerLoginController {
 	}
 
 	@PostMapping("/logout")
-	public ResponseLogoutDTO logout(HttpSession session) {
+	public void logout(HttpSession session) {
 		SessionUtil.removeLoginKey(session, SessionUtil.LOGIN_CUSTOMER_KEY);
-
-		return new ResponseLogoutDTO();
 	}
 }

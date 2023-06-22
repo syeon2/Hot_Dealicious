@@ -24,7 +24,7 @@ public class MyBatisCustomerDAO implements ICustomerDAO {
 	}
 
 	@Override
-	public Customer findById(Long id) {
+	public Optional<Customer> findById(Long id) {
 		return customerMapper.findById(id);
 	}
 
@@ -34,15 +34,19 @@ public class MyBatisCustomerDAO implements ICustomerDAO {
 	}
 
 	@Override
-	public void update(Long id, UpdateCustomerDto updateCustomerDto) {
+	public Long update(Long id, UpdateCustomerDto updateCustomerDto) {
 		updateCustomerDto.setUpdatedAt(getCurrentTime());
 
 		customerMapper.update(id, updateCustomerDto);
+
+		return id;
 	}
 
 	@Override
-	public void delete(Long id) {
+	public Long delete(Long id) {
 		customerMapper.delete(id);
+
+		return id;
 	}
 
 	private Timestamp getCurrentTime() {

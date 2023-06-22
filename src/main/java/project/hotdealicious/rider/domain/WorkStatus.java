@@ -7,9 +7,9 @@ public enum WorkStatus {
 
 	public static WorkStatus changedStatus(WorkStatus workStatus) {
 		if (workStatus == OFFLINE) {
-			return ONLINE;
-		} else {
 			return OFFLINE;
+		} else {
+			return ONLINE;
 		}
 	}
 

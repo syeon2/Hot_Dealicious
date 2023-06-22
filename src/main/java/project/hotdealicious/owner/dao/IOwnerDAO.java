@@ -12,7 +12,7 @@ public interface IOwnerDAO {
 
 	Optional<Owner> findById(Long id);
 
-	void update(Long id, UpdateOwnerDto updateOwnerDto);
+	Long update(Long id, UpdateOwnerDto updateOwnerDto);
 
-	void delete(Long id);
+	Long delete(Long id);
 }

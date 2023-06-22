@@ -28,17 +28,17 @@ public class RiderProfileController {
 	}
 
 	@PostMapping("/{id}")
-	public void update(@PathVariable Long id, @Valid @RequestBody UpdateRiderDto updateRiderDto) {
-		riderProfileService.update(id, updateRiderDto);
+	public Long updateRiderInfo(@PathVariable Long id, @Valid @RequestBody UpdateRiderDto updateRiderDto) {
+		return riderProfileService.update(id, updateRiderDto);
 	}
 
 	@PostMapping("/commute/{id}")
-	void checkCommute(@PathVariable Long id, @RequestBody UpdateWorkStatusDto updateWorkStatusDto) {
-		riderProfileService.updateWorkStatus(id, updateWorkStatusDto.getWorkStatus());
+	public Long checkCommute(@PathVariable Long id, @RequestBody UpdateWorkStatusDto updateWorkStatusDto) {
+		return riderProfileService.updateWorkStatus(id, updateWorkStatusDto.getWorkStatus());
 	}
 
 	@DeleteMapping("/{id}")
-	void withdraw(@PathVariable Long id) {
-		riderProfileService.withdraw(id);
+	public Long withdrawRider(@PathVariable Long id) {
+		return riderProfileService.withdraw(id);
 	}
 }

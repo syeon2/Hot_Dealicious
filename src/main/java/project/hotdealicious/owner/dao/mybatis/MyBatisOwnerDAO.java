@@ -28,12 +28,16 @@ public class MyBatisOwnerDAO implements IOwnerDAO {
 	}
 
 	@Override
-	public void update(Long id, UpdateOwnerDto updateOwnerDto) {
+	public Long update(Long id, UpdateOwnerDto updateOwnerDto) {
 		ownerMapper.update(id, updateOwnerDto);
+
+		return id;
 	}
 
 	@Override
-	public void delete(Long id) {
+	public Long delete(Long id) {
 		ownerMapper.delete(id);
+
+		return id;
 	}
 }
