@@ -11,7 +11,7 @@ import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import project.hotdealicious.common.util.BaseWrapper;
+import project.hotdealicious.common.util.SuccessBaseWrapper;
 
 @RestControllerAdvice
 public class SuccessResponseAdvice implements ResponseBodyAdvice<Object> {
@@ -29,7 +29,7 @@ public class SuccessResponseAdvice implements ResponseBodyAdvice<Object> {
 		HttpStatus resolve = HttpStatus.resolve(servletResponse.getStatus());
 
 		if (notOccurError(resolve)) {
-			return BaseWrapper.onSuccess(servletResponse.getStatus(), body);
+			return SuccessBaseWrapper.onSuccess(body);
 		}
 
 		return body;
