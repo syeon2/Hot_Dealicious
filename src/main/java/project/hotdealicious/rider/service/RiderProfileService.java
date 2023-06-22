@@ -1,6 +1,8 @@
 package project.hotdealicious.rider.service;
 
 import java.sql.Timestamp;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -28,13 +30,14 @@ public class RiderProfileService {
 		return riderDAO.save(saveRiderDto);
 	}
 
-	public Rider findRider(Long id) {
-		return riderDAO.findById(id);
-	}
-
 	public void update(Long id, UpdateRiderDto updateRiderDto) {
-		Rider findRider = riderDAO.findById(id);
-		String salt = findRider.getSalt();
+		Optional<Rider> findRiderOptional = riderDAO.findById(id);
+
+		if (findRiderOptional.isEmpty()) {
+			throw new NoSuchElementException("아이디가 올바르지 않습니다.");
+		}
+
+		String salt = findRiderOptional.get().getSalt();
 		String encryptPassword = Sha256Util.getEncrypt(updateRiderDto.getPassword(), salt);
 
 		updateRiderDto.setPassword(encryptPassword);

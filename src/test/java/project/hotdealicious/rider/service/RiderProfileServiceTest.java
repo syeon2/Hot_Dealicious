@@ -33,7 +33,7 @@ class RiderProfileServiceTest {
 		riderProfileService.join(saveRiderDto);
 
 		// then
-		Rider findRider = riderDAO.findById(1L);
+		Rider findRider = riderDAO.findById(1L).get();
 		assertThat(findRider.getName()).isEqualTo(name);
 	}
 
@@ -48,7 +48,7 @@ class RiderProfileServiceTest {
 		riderProfileService.update(1L, updateRiderDto);
 
 		// then
-		Rider findRider = riderDAO.findById(1L);
+		Rider findRider = riderDAO.findById(1L).get();
 		assertThat(findRider.getPhone()).isEqualTo("01033334444");
 	}
 }

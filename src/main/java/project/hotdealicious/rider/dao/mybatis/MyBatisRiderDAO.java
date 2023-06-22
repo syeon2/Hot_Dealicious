@@ -1,5 +1,7 @@
 package project.hotdealicious.rider.dao.mybatis;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class MyBatisRiderDAO implements IRiderDAO {
 		return saveRiderDto.getId();
 	}
 
-	public Rider findById(Long id) {
+	public Optional<Rider> findById(Long id) {
 		return riderMapper.findById(id);
 	}
 

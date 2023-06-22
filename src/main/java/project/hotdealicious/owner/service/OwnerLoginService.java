@@ -1,5 +1,8 @@
 package project.hotdealicious.owner.service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -13,12 +16,16 @@ public class OwnerLoginService {
 
 	private final IOwnerDAO ownerDAO;
 
-	public Owner login(Long id, String password) {
-		Owner findOwner = ownerDAO.findById(id);
+	public Optional<Owner> login(Long id, String password) {
+		Optional<Owner> findOwnerOptional = ownerDAO.findById(id);
 
-		String salt = findOwner.getSalt();
+		if (findOwnerOptional.isEmpty()) {
+			throw new NoSuchElementException("아이디가 존재하지 않습니다.");
+		}
+
+		String salt = findOwnerOptional.get().getSalt();
 		String encryptPassword = Sha256Util.getEncrypt(password, salt);
 
-		return findOwner.getPassword().equals(encryptPassword) ? findOwner : null;
+		return findOwnerOptional.filter(owner -> owner.getPassword().equals(encryptPassword));
 	}
 }

@@ -33,7 +33,7 @@ class OwnerProfileServiceTest {
 		ownerProfileService.join(saveOwnerDto);
 
 		// then
-		Owner findOwner = ownerDAO.findById(1L);
+		Owner findOwner = ownerDAO.findById(1L).get();
 		assertThat(findOwner.getName()).isEqualTo(name);
 	}
 
@@ -48,7 +48,7 @@ class OwnerProfileServiceTest {
 		ownerProfileService.update(1L, updateOwnerDto);
 
 		// then
-		Owner findOwner = ownerDAO.findById(1L);
+		Owner findOwner = ownerDAO.findById(1L).get();
 		assertThat(findOwner.getPhone()).isEqualTo("01022223333");
 	}
 }

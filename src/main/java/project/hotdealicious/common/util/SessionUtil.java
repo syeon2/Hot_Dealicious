@@ -12,28 +12,12 @@ public abstract class SessionUtil {
 		return (Long)session.getAttribute(getSessionKey(email, id));
 	}
 
-	public static void setLoginCustomerId(HttpSession session, String email, Long id) {
-		session.setAttribute(LOGIN_CUSTOMER_KEY, getSessionKey(email, id));
+	public static void setLoginKey(HttpSession session, String key, Long value) {
+		session.setAttribute(key, value);
 	}
 
-	public static void removeLoginCustomerId(HttpSession session) {
-		session.removeAttribute(LOGIN_CUSTOMER_KEY);
-	}
-
-	public static void setLoginOwnerId(HttpSession session, Long id) {
-		session.setAttribute(LOGIN_OWNER_KEY, id);
-	}
-
-	public static void removeLoginOwnerId(HttpSession session) {
-		session.removeAttribute(LOGIN_OWNER_KEY);
-	}
-
-	public static void setLoginRiderId(HttpSession session, Long id) {
-		session.setAttribute(LOGIN_RIDER_KEY, id);
-	}
-
-	public static void removeLoginRiderID(HttpSession session) {
-		session.removeAttribute(LOGIN_RIDER_KEY);
+	public static void removeLoginKey(HttpSession session, String key) {
+		session.removeAttribute(key);
 	}
 
 	private static String getSessionKey(String email, Long id) {

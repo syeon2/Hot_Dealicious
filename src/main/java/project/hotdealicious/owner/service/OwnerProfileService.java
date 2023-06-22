@@ -1,6 +1,8 @@
 package project.hotdealicious.owner.service;
 
 import java.sql.Timestamp;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -28,8 +30,13 @@ public class OwnerProfileService {
 	}
 
 	public void update(Long id, UpdateOwnerDto updateOwnerDto) {
-		Owner findOwner = ownerDAO.findById(id);
-		String encryptPassword = getEncryptPassword(updateOwnerDto.getPassword(), findOwner);
+		Optional<Owner> findOwnerOptional = ownerDAO.findById(id);
+
+		if (findOwnerOptional.isEmpty()) {
+			throw new NoSuchElementException("아이디가 올바르지 않습니다.");
+		}
+
+		String encryptPassword = getEncryptPassword(updateOwnerDto.getPassword(), findOwnerOptional.get());
 
 		updateOwnerDto.setPassword(encryptPassword);
 		updateOwnerDto.setUpdatedAt(new Timestamp(System.currentTimeMillis()));

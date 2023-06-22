@@ -1,5 +1,7 @@
 package project.hotdealicious.owner.dao.mybatis;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,7 @@ public class MyBatisOwnerDAO implements IOwnerDAO {
 	}
 
 	@Override
-	public Owner findById(Long id) {
+	public Optional<Owner> findById(Long id) {
 		return ownerMapper.findById(id);
 	}
 

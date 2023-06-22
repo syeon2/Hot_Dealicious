@@ -1,16 +1,20 @@
 package project.hotdealicious.rider.web;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import project.hotdealicious.common.util.SessionUtil;
 import project.hotdealicious.rider.domain.Rider;
+import project.hotdealicious.rider.dto.RiderLoginDto;
 import project.hotdealicious.rider.service.RiderLoginService;
 
 @RestController
@@ -20,21 +24,22 @@ public class RiderLoginController {
 
 	private final RiderLoginService riderLoginService;
 
-	@GetMapping("/login")
-	public Rider login(HttpSession session, Long id, String password) {
-		Rider loginRider = riderLoginService.login(id, password);
+	@PostMapping("/login")
+	public Rider login(HttpSession session, @Valid @RequestBody RiderLoginDto riderLoginDto) {
+		Optional<Rider> loginRider = riderLoginService.login(riderLoginDto.getId(), riderLoginDto.getPassword());
 
-		if (loginRider == null) {
+		if (loginRider.isEmpty()) {
 			throw new NoSuchElementException("아이디 또는 비밀번호가 밎지 않습니다.");
 		}
 
-		SessionUtil.setLoginRiderId(session, id);
+		Rider rider = loginRider.get();
+		SessionUtil.setLoginKey(session, SessionUtil.LOGIN_RIDER_KEY, rider.getId());
 
-		return loginRider;
+		return loginRider.get();
 	}
 
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	public void logout(HttpSession session) {
-		SessionUtil.removeLoginRiderID(session);
+		SessionUtil.removeLoginKey(session, SessionUtil.LOGIN_RIDER_KEY);
 	}
 }

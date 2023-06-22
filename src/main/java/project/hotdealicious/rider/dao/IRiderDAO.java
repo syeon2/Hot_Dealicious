@@ -1,5 +1,7 @@
 package project.hotdealicious.rider.dao;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Param;
 
 import project.hotdealicious.rider.domain.Rider;
@@ -11,7 +13,7 @@ public interface IRiderDAO {
 
 	Long save(SaveRiderDto saveRiderDto);
 
-	Rider findById(Long id);
+	Optional<Rider> findById(Long id);
 
 	void update(@Param("id") Long id, @Param("updateParam") UpdateRiderDto updateRiderDto);
 

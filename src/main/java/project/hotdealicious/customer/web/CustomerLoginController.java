@@ -1,11 +1,11 @@
 package project.hotdealicious.customer.web;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,21 +27,22 @@ public class CustomerLoginController {
 
 	@PostMapping("/login")
 	public Customer login(HttpSession session, @Valid @RequestBody CustomerLoginDto customerLoginDto) {
-		Customer loginCustomer = customerLoginService.login(customerLoginDto.getEmail(),
+		Optional<Customer> loginCustomer = customerLoginService.login(customerLoginDto.getEmail(),
 			customerLoginDto.getPassword());
 
-		if (loginCustomer == null) {
-			throw new NoSuchElementException("아이디 또는 비밀번호가 맞지 않습니다.");
+		if (loginCustomer.isEmpty()) {
+			throw new NoSuchElementException("비밀번호가 맞지 않습니다.");
 		}
 
-		SessionUtil.setLoginCustomerId(session, loginCustomer.getEmail(), loginCustomer.getId());
+		Customer customer = loginCustomer.get();
+		SessionUtil.setLoginKey(session, SessionUtil.LOGIN_CUSTOMER_KEY, customer.getId());
 
-		return loginCustomer;
+		return customer;
 	}
 
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	public ResponseLogoutDTO logout(HttpSession session) {
-		SessionUtil.removeLoginCustomerId(session);
+		SessionUtil.removeLoginKey(session, SessionUtil.LOGIN_CUSTOMER_KEY);
 
 		return new ResponseLogoutDTO();
 	}

@@ -1,5 +1,8 @@
 package project.hotdealicious.rider.service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -13,12 +16,16 @@ public class RiderLoginService {
 
 	private final IRiderDAO riderDAO;
 
-	public Rider login(Long id, String password) {
-		Rider findRider = riderDAO.findById(id);
+	public Optional<Rider> login(Long id, String password) {
+		Optional<Rider> findRiderOptional = riderDAO.findById(id);
 
-		String salt = findRider.getSalt();
+		if (findRiderOptional.isEmpty()) {
+			throw new NoSuchElementException("아이디가 존재하지 않습니다.");
+		}
+
+		String salt = findRiderOptional.get().getSalt();
 		String encryptPassword = Sha256Util.getEncrypt(password, salt);
 
-		return findRider.getPassword().equals(encryptPassword) ? findRider : null;
+		return findRiderOptional.filter(rider -> rider.getPassword().equals(encryptPassword));
 	}
 }

@@ -1,5 +1,7 @@
 package project.hotdealicious.owner.dao.mybatis;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +14,7 @@ public interface OwnerMapper {
 
 	Long save(SaveOwnerDto saveOwnerDto);
 
-	Owner findById(Long id);
+	Optional<Owner> findById(Long id);
 
 	void update(@Param("id") Long id, @Param("updateParam") UpdateOwnerDto updateOwnerDto);
 

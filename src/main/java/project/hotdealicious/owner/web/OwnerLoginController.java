@@ -1,11 +1,12 @@
 package project.hotdealicious.owner.web;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,21 +24,22 @@ public class OwnerLoginController {
 
 	private final OwnerLoginService ownerLoginService;
 
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public Owner login(HttpSession session, @Valid @RequestBody OwnerLoginDto ownerLoginDto) {
-		Owner loginOwner = ownerLoginService.login(ownerLoginDto.getId(), ownerLoginDto.getPassword());
+		Optional<Owner> loginOwner = ownerLoginService.login(ownerLoginDto.getId(), ownerLoginDto.getPassword());
 
-		if (loginOwner == null) {
+		if (loginOwner.isEmpty()) {
 			throw new NoSuchElementException("아이디 또는 비밀번호가 맞지 않습니다.");
 		}
 
-		SessionUtil.setLoginOwnerId(session, ownerLoginDto.getId());
+		Owner owner = loginOwner.get();
+		SessionUtil.setLoginKey(session, SessionUtil.LOGIN_OWNER_KEY, owner.getId());
 
-		return loginOwner;
+		return owner;
 	}
 
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	public void logout(HttpSession session) {
-		SessionUtil.removeLoginOwnerId(session);
+		SessionUtil.removeLoginKey(session, SessionUtil.LOGIN_OWNER_KEY);
 	}
 }

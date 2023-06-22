@@ -1,5 +1,7 @@
 package project.hotdealicious.rider.dao.mybatis;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +15,7 @@ public interface RiderMapper {
 
 	Long save(SaveRiderDto saveRiderDto);
 
-	Rider findById(Long id);
+	Optional<Rider> findById(Long id);
 
 	void update(@Param("id") Long id, @Param("updateParam") UpdateRiderDto updateRiderDto);
 
