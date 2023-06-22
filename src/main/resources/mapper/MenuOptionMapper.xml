@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.hotdealicious.menu.dao.mybatis.MenuOptionMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into options (name, introduction, price, menu_id)
+        values (#{name}, #{introduction}, #{price}, #{menuId})
+    </insert>
+
+    <update id="update">
+        update options
+        set name=#{updateParam.name},
+            introduction=#{updateParam.introduction},
+            stock=#{updateParam.stock},
+            price=#{updateParam.price},
+            updated_at=#{updateParam.updatedAt}
+        where id = #{id}
+    </update>
+
+    <select id="findMenuOptions">
+        select *
+        from options
+        where id = #{menuId}
+    </select>
+
+    <delete id="delete">
+        delete
+        from options
+        where id = #{id}
+    </delete>
+
+</mapper>
