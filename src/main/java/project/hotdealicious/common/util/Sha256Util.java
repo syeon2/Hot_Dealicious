@@ -2,7 +2,9 @@ package project.hotdealicious.common.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Sha256Util {
 
@@ -13,31 +15,21 @@ public class Sha256Util {
 	}
 
 	public static String getEncrypt(String source, byte[] salt) {
-		String result = "";
-
-		byte[] bytes = new byte[source.getBytes().length + salt.length];
-
 		try {
+			byte[] bytes = new byte[source.getBytes().length + salt.length];
 			MessageDigest md = MessageDigest.getInstance(ENCRYPTION_TYPE);
-			md.update(bytes);
+			byte[] byteData = md.digest(bytes);
 
-			byte[] byteData = md.digest();
-
-			StringBuilder sb = new StringBuilder();
-			for (byte byteDatum : byteData) {
-				sb.append(Integer.toString((byteDatum & 0xFF) + 0x100, 16).substring(1));
-			}
-
-			result = sb.toString();
+			return IntStream.range(0, byteData.length)
+				.mapToObj(i -> String.format("%02x", byteData[i]))
+				.collect(Collectors.joining());
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException("SHA-256 암호화 에러");
 		}
-
-		return result;
 	}
 
 	public static String generateSalt() {
-		Random random = new Random();
+		ThreadLocalRandom random = ThreadLocalRandom.current();
 
 		byte[] salt = new byte[8];
 		random.nextBytes(salt);

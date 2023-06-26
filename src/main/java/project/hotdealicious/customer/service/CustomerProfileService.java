@@ -45,7 +45,7 @@ public class CustomerProfileService {
 		return customerDAO.update(findCustomer.getId(), updateCustomerDto);
 	}
 
-	public Long withdraw(Long id) {
+	public Long remove(Long id) {
 		return customerDAO.delete(id);
 	}
 }

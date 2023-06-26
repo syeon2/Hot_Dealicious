@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import project.hotdealicious.common.util.basewrapper.ApiResult;
 import project.hotdealicious.customer.dto.SaveCustomerDto;
 import project.hotdealicious.customer.dto.UpdateCustomerDto;
 import project.hotdealicious.customer.service.CustomerProfileService;
@@ -22,17 +23,21 @@ public class CustomerProfileController {
 	private final CustomerProfileService customerProfileService;
 
 	@PostMapping
-	public Long join(@Valid @RequestBody SaveCustomerDto saveCustomerDto) {
-		return customerProfileService.join(saveCustomerDto);
+	public ApiResult<Long> join(@Valid @RequestBody SaveCustomerDto saveCustomerDto) {
+		Long customerId = customerProfileService.join(saveCustomerDto);
+		return ApiResult.onSuccess(customerId);
 	}
 
 	@PostMapping("/{id}")
-	public Long updateCustomerInfo(@PathVariable Long id, @Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
-		return customerProfileService.update(id, updateCustomerDto);
+	public ApiResult<Long> updateCustomerInfo(@PathVariable Long id,
+		@Valid @RequestBody UpdateCustomerDto updateCustomerDto) {
+		Long customerId = customerProfileService.update(id, updateCustomerDto);
+		return ApiResult.onSuccess(customerId);
 	}
 
 	@DeleteMapping("/{id}")
-	public Long withdrawCustomer(@PathVariable Long id) {
-		return customerProfileService.withdraw(id);
+	public ApiResult<Long> withdrawCustomer(@PathVariable Long id) {
+		Long customerId = customerProfileService.remove(id);
+		return ApiResult.onSuccess(customerId);
 	}
 }
