@@ -1,8 +1,10 @@
 package project.hotdealicious.rider.web;
 
-import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+
 import javax.validation.Valid;
 
+import org.springframework.core.env.Environment;
 import org.springframework.data.geo.Point;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -29,6 +31,7 @@ public class RiderProfileController {
 	private final RiderProfileService riderProfileService;
 	private final RedisTemplate<String, Object> redisGeoTemplate;
 	private final RedisTemplate<String, String> redisRoutingTableTemplate;
+	private final Environment environment;
 
 	@PostMapping
 	public ApiResult<Long> join(@Valid @RequestBody SaveRiderDto saveRiderDto) {
@@ -49,26 +52,30 @@ public class RiderProfileController {
 	}
 
 	@MessageMapping("/commute")
-	public ApiResult<Long> checkCommute(RiderGeoDto riderGeoDto, HttpServletRequest request) {
+	public ApiResult<Long> checkCommute(RiderGeoDto riderGeoDto) {
 		Point point = new Point(riderGeoDto.getData().getX(), riderGeoDto.getData().getY());
 		redisGeoTemplate.opsForGeo().add("myMap", point, riderGeoDto.getRiderId());
 
 		if (riderGeoDto.getWorkStatus() == WorkStatus.INIT) {
-			connectWebSocketServerToRider(riderGeoDto.getRiderId(), request);
+			connectWebSocketServerToRider(riderGeoDto.getRiderId());
 		}
 
 		return ApiResult.onSuccess(riderGeoDto.getRiderId());
 	}
 
-	private void connectWebSocketServerToRider(@PathVariable Long id, HttpServletRequest request) {
-		redisRoutingTableTemplate.opsForValue().set(String.valueOf(id), makeUri(request));
+	private void connectWebSocketServerToRider(@PathVariable Long id) {
+		redisRoutingTableTemplate.opsForValue().set(String.valueOf(id), makeUri());
 	}
 
-	private String makeUri(HttpServletRequest request) {
-		String scheme = request.getScheme();
-		String host = request.getServerName();
-		int remotePort = request.getServerPort();
+	private String makeUri() {
+		try {
+			String scheme = "ws";
+			String host = InetAddress.getLocalHost().getHostAddress();
+			String port = environment.getProperty("local.server.port");
 
-		return scheme.concat("://").concat(host).concat(":").concat(String.valueOf(remotePort));
+			return scheme.concat("://").concat(host).concat(":").concat(port);
+		} catch (Exception e) {
+			throw new RuntimeException("임시 예외");
+		}
 	}
 }
