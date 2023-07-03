@@ -13,12 +13,7 @@ import project.hotdealicious.rider.domain.WorkStatus;
 public class RiderGeoDto {
 
 	private WorkStatus workStatus;
-	private String sender;
-	private Long riderId;
+	private Long channelId;
+	private WorkStatus status;
 	private GeoLocation data;
-
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
-
 }
