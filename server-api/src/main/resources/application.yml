@@ -9,8 +9,12 @@ spring:
     store-type: redis
 
   redis:
-    host: localhost
-    port: 6379
+    geo:
+      host: localhost
+      port: 6371
+    session:
+      host: localhost
+      port: 6379
 
 # MyBatis
 mybatis:

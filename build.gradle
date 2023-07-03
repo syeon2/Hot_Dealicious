@@ -1,3 +1,9 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.12'
@@ -7,51 +13,66 @@ plugins {
     id 'checkstyle'
 }
 
-group = 'project'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }
 
-repositories {
-    mavenCentral()
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.ec4j.editorconfig'
+    apply plugin: 'checkstyle'
+
+    group = 'project'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    editorconfig {
+        excludes = ['build']
+    }
+
+    checkstyle {
+        maxWarnings = 0
+        configFile = file("${rootDir}/config/checkstyle/naver-checkstyle-rules.xml")
+        configProperties = ["suppressionFile": "${rootDir}/config/checkstyle/naver-checkstyle-suppressions.xml"]
+        toolVersion = "10.10.0"
+    }
+
+    check.dependsOn editorconfigCheck
+
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springframework.session:spring-session-data-redis'
+project(':server-api') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-websocket'
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
+        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+        implementation 'org.springframework.session:spring-session-data-redis'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+    }
 }
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-editorconfig {
-    excludes = ['build']
-}
-
-checkstyle {
-    maxWarnings = 0
-    configFile = file("${rootDir}/config/checkstyle/naver-checkstyle-rules.xml")
-    configProperties = ["suppressionFile": "${rootDir}/config/checkstyle/naver-checkstyle-suppressions.xml"]
-    toolVersion = "10.10.0"
-}
-
-check.dependsOn editorconfigCheck
-
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
