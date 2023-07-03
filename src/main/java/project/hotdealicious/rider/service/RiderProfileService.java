@@ -47,7 +47,7 @@ public class RiderProfileService {
 	}
 
 	public Long updateWorkStatus(Long id, WorkStatus workStatus) {
-		return riderDAO.updateWorkStatus(id, WorkStatus.changedStatus(workStatus));
+		return riderDAO.updateWorkStatus(id, workStatus);
 	}
 
 	public Long withdraw(Long id) {

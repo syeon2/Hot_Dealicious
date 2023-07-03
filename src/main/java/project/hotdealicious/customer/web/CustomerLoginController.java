@@ -1,8 +1,5 @@
 package project.hotdealicious.customer.web;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -13,34 +10,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import project.hotdealicious.common.util.SessionUtil;
+import project.hotdealicious.common.util.basewrapper.ApiResult;
 import project.hotdealicious.customer.domain.Customer;
 import project.hotdealicious.customer.dto.CustomerLoginDto;
-import project.hotdealicious.customer.service.CustomerLoginService;
+import project.hotdealicious.login.service.MemberLoginService;
+import project.hotdealicious.login.service.UserType;
 
 @RestController
 @RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
 public class CustomerLoginController {
 
-	private final CustomerLoginService customerLoginService;
+	private final MemberLoginService memberLoginService;
 
 	@PostMapping("/login")
-	public Customer login(HttpSession session, @Valid @RequestBody CustomerLoginDto customerLoginDto) {
-		Optional<Customer> loginCustomer = customerLoginService.login(customerLoginDto.getEmail(),
-			customerLoginDto.getPassword());
+	public ApiResult<Customer> loginCustomer(HttpSession session,
+		@Valid @RequestBody CustomerLoginDto customerLoginDto) {
+		Customer loginCustomer = (Customer)memberLoginService.login(customerLoginDto.getEmail(),
+			customerLoginDto.getPassword(), UserType.CUSTOMER);
 
-		if (loginCustomer.isEmpty()) {
-			throw new NoSuchElementException("비밀번호가 맞지 않습니다.");
-		}
+		SessionUtil.setLoginKey(session, SessionUtil.LOGIN_CUSTOMER_KEY, loginCustomer.getId());
 
-		Customer customer = loginCustomer.get();
-		SessionUtil.setLoginKey(session, SessionUtil.LOGIN_CUSTOMER_KEY, customer.getId());
-
-		return customer;
+		return ApiResult.onSuccess(loginCustomer);
 	}
 
 	@PostMapping("/logout")
-	public void logout(HttpSession session) {
+	public void logoutCustomer(HttpSession session) {
 		SessionUtil.removeLoginKey(session, SessionUtil.LOGIN_CUSTOMER_KEY);
 	}
 }

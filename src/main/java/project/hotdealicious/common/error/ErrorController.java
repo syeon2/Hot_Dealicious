@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import project.hotdealicious.common.error.exception.LoginException;
 import project.hotdealicious.common.util.basewrapper.ErrorApiResult;
 
 @RestControllerAdvice
 public class ErrorController {
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(NoSuchElementException.class)
+	@ExceptionHandler({NoSuchElementException.class, LoginException.class})
 	public ErrorApiResult handlerEmptyResultDataAccessException(NoSuchElementException error) {
 		return ErrorApiResult.onError(HttpStatus.NOT_FOUND.value(), error.getLocalizedMessage());
 	}
