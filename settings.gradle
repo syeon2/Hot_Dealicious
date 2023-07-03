@@ -1,1 +1,3 @@
 rootProject.name = 'hotdealicious'
+include('server-api')
+include('websocket-routingtable')

@@ -3,7 +3,7 @@ package project.hotdealicious.rider.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum WorkStatus {
-	INIT, WAIT, PROCESS, COMPLETE;
+	INIT, WAIT, PROCESS, COMPLETE, OFFLINE;
 
 	@JsonCreator
 	public static WorkStatus from(String s) {

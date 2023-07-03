@@ -23,9 +23,7 @@ public class MemberLoginService {
 	private final IRiderDAO riderDAO;
 
 	public Object login(String id, String password, UserType userType) {
-		Optional<?> memberOptional;
-
-		memberOptional = findMemberOptional(id, userType);
+		Optional<?> memberOptional = findMemberOptional(id, userType);
 
 		if (memberOptional.isEmpty()) {
 			throw new LoginException("아이디가 존재하지 않습니다.");
