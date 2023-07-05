@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
 @EnableRedisHttpSession
 public class RedisWaitOrderConfig {
+
+	public static final String WAIT_ORDER = "WAIT_ORDER";
 
 	@Value("${spring.redis.wait_order.host}")
 	private String host;
@@ -28,11 +29,11 @@ public class RedisWaitOrderConfig {
 
 	@Bean
 	@Qualifier("redisWaitOrderTemplate")
-	public RedisTemplate<String, Object> redisWaitOrderTemplate() {
-		RedisTemplate<String, Object> redisGeoTemplate = new RedisTemplate<>();
+	public RedisTemplate<String, String> redisWaitOrderTemplate() {
+		RedisTemplate<String, String> redisGeoTemplate = new RedisTemplate<>();
 		redisGeoTemplate.setConnectionFactory(redisWaitOrderFactory());
 		redisGeoTemplate.setKeySerializer(new StringRedisSerializer());
-		redisGeoTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+		redisGeoTemplate.setValueSerializer(new StringRedisSerializer());
 
 		return redisGeoTemplate;
 	}
