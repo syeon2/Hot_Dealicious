@@ -13,24 +13,24 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @Configuration
 @EnableRedisHttpSession
-public class RedisGeoConfig {
+public class RedisWaitOrderConfig {
 
-	@Value("${spring.redis.geo.host}")
+	@Value("${spring.redis.wait_order.host}")
 	private String host;
 
-	@Value("${spring.redis.geo.port}")
+	@Value("${spring.redis.wait_order.port}")
 	private Integer port;
 
 	@Bean
-	public RedisConnectionFactory redisGeoConnectionFactory() {
+	public RedisConnectionFactory redisWaitOrderFactory() {
 		return new LettuceConnectionFactory(host, port);
 	}
 
 	@Bean
-	@Qualifier("redisGeoTemplate")
-	public RedisTemplate<String, Object> redisGeoTemplate() {
+	@Qualifier("redisWaitOrderTemplate")
+	public RedisTemplate<String, Object> redisWaitOrderTemplate() {
 		RedisTemplate<String, Object> redisGeoTemplate = new RedisTemplate<>();
-		redisGeoTemplate.setConnectionFactory(redisGeoConnectionFactory());
+		redisGeoTemplate.setConnectionFactory(redisWaitOrderFactory());
 		redisGeoTemplate.setKeySerializer(new StringRedisSerializer());
 		redisGeoTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
