@@ -36,4 +36,18 @@ create table rider
     created_at  timestamp   default NOW(),
     updated_at  timestamp   default NOW(),
     salt        varchar(100)
-)
+);
+
+create table orders
+(
+    id           bigint unsigned auto_increment
+        primary key,
+    order_status varchar(40)  not null,
+    address      varchar(255) not null,
+    created_at   timestamp default NOW() null,
+    updated_at   timestamp default NOW() null,
+    customer_id  bigint unsigned not null,
+    store_id     bigint unsigned not null,
+    rider_id     bigint unsigned null
+);
+
