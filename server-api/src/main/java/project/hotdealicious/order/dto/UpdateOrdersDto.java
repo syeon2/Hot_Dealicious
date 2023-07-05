@@ -13,12 +13,13 @@ import project.hotdealicious.order.domain.OrderStatus;
 public class UpdateOrdersDto {
 
 	@NotBlank(message = "주문 상태를 입력해주세요.")
-	private OrderStatus orderStatus;
+	private final OrderStatus orderStatus;
 
+	private Long riderId;
 	private Timestamp updatedAt;
 
-	public void updateOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
+	public void setRiderId(Long riderId) {
+		this.riderId = riderId;
 	}
 
 	public void setUpdatedAt(Timestamp updatedAt) {

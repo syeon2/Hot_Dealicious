@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import project.hotdealicious.common.config.redis.RedisWaitOrderConfig;
 import project.hotdealicious.order.dao.IOrdersDao;
 import project.hotdealicious.order.domain.OrderStatus;
 import project.hotdealicious.order.dto.SaveOrdersDto;
@@ -13,8 +14,6 @@ import project.hotdealicious.order.dto.UpdateOrdersDto;
 @Service
 @RequiredArgsConstructor
 public class OrdersService {
-
-	public static final String WAIT_ORDER = "WAIT_ORDER";
 
 	private final IOrdersDao ordersDao;
 	private final RedisTemplate<String, Object> redisWaitOrderTemplate;
@@ -25,18 +24,22 @@ public class OrdersService {
 	}
 
 	public void changeOrderStatus(Long id, UpdateOrdersDto updateOrdersDto) {
-		if (endOrder(updateOrdersDto)) {
-			redisWaitOrderTemplate.opsForGeo().remove(WAIT_ORDER, id);
+		if (endOrder(updateOrdersDto) || matchOrderToRider(updateOrdersDto)) {
+			redisWaitOrderTemplate.opsForGeo().remove(RedisWaitOrderConfig.WAIT_ORDER, id);
 		} else if (updateOrdersDto.getOrderStatus() == OrderStatus.SEARCH_RIDER) {
 			// TODO:: 임시 위도 경도 값 설정 -> 추후 외부 주소값 요청 API 붙이는 작업
 			Point point = new Point(128.123, 24.214);
 
-			redisWaitOrderTemplate.opsForGeo().add(WAIT_ORDER, point, id);
+			redisWaitOrderTemplate.opsForGeo().add(RedisWaitOrderConfig.WAIT_ORDER, point, id);
 		} else if (isNotOrdersStatus(updateOrdersDto)) {
 			throw new IllegalArgumentException("잘못된 주문 상태 요청입니다.");
 		}
 
 		ordersDao.update(id, updateOrdersDto);
+	}
+
+	private boolean matchOrderToRider(UpdateOrdersDto updateOrdersDto) {
+		return updateOrdersDto.getOrderStatus() == OrderStatus.PROGRESS;
 	}
 
 	private boolean isNotOrdersStatus(UpdateOrdersDto updateOrdersDto) {
