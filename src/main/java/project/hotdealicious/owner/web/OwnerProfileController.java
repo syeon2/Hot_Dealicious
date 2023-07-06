@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import project.hotdealicious.common.util.basewrapper.ApiResult;
 import project.hotdealicious.owner.dto.SaveOwnerDto;
 import project.hotdealicious.owner.dto.UpdateOwnerDto;
 import project.hotdealicious.owner.service.OwnerProfileService;
@@ -22,17 +23,20 @@ public class OwnerProfileController {
 	private final OwnerProfileService ownerProfileService;
 
 	@PostMapping
-	public Long join(@Valid @RequestBody SaveOwnerDto saveOwnerDto) {
-		return ownerProfileService.join(saveOwnerDto);
+	public ApiResult<Long> join(@Valid @RequestBody SaveOwnerDto saveOwnerDto) {
+		Long ownerId = ownerProfileService.join(saveOwnerDto);
+		return ApiResult.onSuccess(ownerId);
 	}
 
 	@PostMapping("/{id}")
-	public Long updateOwnerInfo(@PathVariable Long id, @Valid @RequestBody UpdateOwnerDto updateOwnerDto) {
-		return ownerProfileService.update(id, updateOwnerDto);
+	public ApiResult<Long> updateOwnerInfo(@PathVariable Long id, @Valid @RequestBody UpdateOwnerDto updateOwnerDto) {
+		Long ownerId = ownerProfileService.update(id, updateOwnerDto);
+		return ApiResult.onSuccess(ownerId);
 	}
 
 	@DeleteMapping("/{id}")
-	public Long withdrawOwner(@PathVariable Long id) {
-		return ownerProfileService.withdraw(id);
+	public ApiResult<Long> withdrawOwner(@PathVariable Long id) {
+		Long ownerId = ownerProfileService.withdraw(id);
+		return ApiResult.onSuccess(ownerId);
 	}
 }

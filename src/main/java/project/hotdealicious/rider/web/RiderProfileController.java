@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import project.hotdealicious.common.util.basewrapper.ApiResult;
 import project.hotdealicious.rider.dto.SaveRiderDto;
 import project.hotdealicious.rider.dto.UpdateRiderDto;
 import project.hotdealicious.rider.dto.UpdateWorkStatusDto;
@@ -23,22 +24,26 @@ public class RiderProfileController {
 	private final RiderProfileService riderProfileService;
 
 	@PostMapping
-	public Long join(@Valid @RequestBody SaveRiderDto saveRiderDto) {
-		return riderProfileService.join(saveRiderDto);
+	public ApiResult<Long> join(@Valid @RequestBody SaveRiderDto saveRiderDto) {
+		Long riderId = riderProfileService.join(saveRiderDto);
+		return ApiResult.onSuccess(riderId);
 	}
 
 	@PostMapping("/{id}")
-	public Long updateRiderInfo(@PathVariable Long id, @Valid @RequestBody UpdateRiderDto updateRiderDto) {
-		return riderProfileService.update(id, updateRiderDto);
+	public ApiResult<Long> updateRiderInfo(@PathVariable Long id, @Valid @RequestBody UpdateRiderDto updateRiderDto) {
+		Long riderId = riderProfileService.update(id, updateRiderDto);
+		return ApiResult.onSuccess(riderId);
 	}
 
 	@PostMapping("/commute/{id}")
-	public Long checkCommute(@PathVariable Long id, @RequestBody UpdateWorkStatusDto updateWorkStatusDto) {
-		return riderProfileService.updateWorkStatus(id, updateWorkStatusDto.getWorkStatus());
+	public ApiResult<Long> checkCommute(@PathVariable Long id, @RequestBody UpdateWorkStatusDto updateWorkStatusDto) {
+		Long riderId = riderProfileService.updateWorkStatus(id, updateWorkStatusDto.getWorkStatus());
+		return ApiResult.onSuccess(riderId);
 	}
 
 	@DeleteMapping("/{id}")
-	public Long withdrawRider(@PathVariable Long id) {
-		return riderProfileService.withdraw(id);
+	public ApiResult<Long> withdrawRider(@PathVariable Long id) {
+		Long riderId = riderProfileService.withdraw(id);
+		return ApiResult.onSuccess(riderId);
 	}
 }
