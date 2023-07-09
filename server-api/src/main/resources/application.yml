@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hotdealicious
+    username: root
+    password: tndusdl11
+
+  session:
+    store-type: redis
+
+  redis:
+    geo:
+      host: localhost
+      port: 6371
+    session:
+      host: localhost
+      port: 6379
+    wait_order:
+      host: localhost
+      port: 6372
+
+
+# MyBatis
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+  mapper-locations: classpath:mapper/**/*.xml
