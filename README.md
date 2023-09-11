@@ -11,16 +11,9 @@
 
 ----------
 
-### 🌱 필요 기술 Stack
+### 🌱 사용 기술 Stack
 
 - for Application : Java 11, Spring Boot(2.7.12), MyBatis
 - for DataBase : MySQL, Redis
-
-----------
-
-### 🌱 프로젝트 목표
-
-- 효율적인 트랜젝션 처리 및 동시성 이슈 처리
-- 네트워크 개념 실전 활용(WebSocket 등)
 
 ----------
