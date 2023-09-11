@@ -1,7 +1,6 @@
 ## 🔥Hot-Dealicious🚘
 
-### 주변 매장을 조회하여 실시간 라이더 위치 조회 토이 프로젝트
-
+### 위치 정보 제공 토이 프로젝트
 ----------
 
 ### 🌱 프로젝트 핵심 기능
@@ -23,11 +22,5 @@
 
 - 효율적인 트랜젝션 처리 및 동시성 이슈 처리
 - 네트워크 개념 실전 활용(WebSocket 등)
-
-----------
-
-### 🌱 프로젝트 ERD
-
-<img width="2125" alt="Screenshot 2023-06-11 at 3 31 58 PM" src="https://wkblog-images.s3.ap-northeast-2.amazonaws.com/hot-dealicious/DB-modeling.png">
 
 ----------
